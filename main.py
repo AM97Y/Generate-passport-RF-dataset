@@ -9,12 +9,8 @@ def get_data(url, number_requests=20):
     names = ('LastName', 'FirstName', 'FatherName', 'DateOfBirth', 'PasportNum', 'PasportCode', 'PasportOtd',
              'PasportDate', 'Address')
 
-    data = dict()
+    data = dict.fromkeys(names, set)
 
-    for name in names:
-        data[name] = set()
-
-    print(data)
     driver.get(url)
     for _ in range(number_requests):
         driver.find_element_by_xpath(
