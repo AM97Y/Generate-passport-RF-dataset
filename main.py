@@ -9,7 +9,7 @@ def get_data(url, number_requests=20):
     names = ('LastName', 'FirstName', 'FatherName', 'DateOfBirth', 'PasportNum', 'PasportCode', 'PasportOtd',
              'PasportDate', 'Address')
 
-    data = dict.fromkeys(names, set)
+    data = dict.fromkeys(names, set())
 
     driver.get(url)
     for _ in range(number_requests):
