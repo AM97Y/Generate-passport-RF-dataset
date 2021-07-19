@@ -15,6 +15,7 @@ def get_data(browser, path_driver, number_requests):
     browser: type browser - Chrome or Firefox
     path_driver: driver location
     number_requests: number requests from https://www.random1.ru/generator-pasportnyh-dannyh.
+    Return dict of load data.
     """
     if browser == 'Firefox':
         driver = webdriver.Firefox(executable_path=path_driver)
