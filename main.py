@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
+import os
 from argparse import ArgumentParser
+from datetime import datetime
 
 from selenium import webdriver
 
@@ -21,14 +23,14 @@ def get_data(browser, path_driver, number_requests):
     else:
         raise ValueError('use browser Chrome or Firefox')
 
-    data = dict.fromkeys(NAMES, set())
+    data = {name: set() for name in NAMES}
 
     driver.get(URL)
     for _ in range(number_requests):
         driver.find_element_by_xpath(
             "//div[@class='people_buttons']/button").click()
-        for name in NAMES:
-            data[name].add(driver.find_element_by_xpath(f'//input[@id="{name}"]').get_attribute('value'))
+        for key in NAMES:
+            data[key].add(driver.find_element_by_xpath(f'//input[@id="{key}"]').get_attribute('value'))
 
     return data
 
@@ -78,8 +80,16 @@ def init_argparse():
     return parser
 
 
+def makedirs(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
 if __name__ == '__main__':
     args = init_argparse().parse_args()
     data = get_data(args.browser, args.path_driver, args.number_requests)
+
+    makedirs(args.output)
+    today = datetime.today()
     for name in NAMES:
-        save_data(data[name], f'{args.output}/{name}_data.txt')
+        save_data(data[name], f'{args.output}/{name}_{today.strftime("%Y-%m-%d-%H.%M.%S")}.txt')

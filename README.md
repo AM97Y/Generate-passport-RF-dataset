@@ -2,7 +2,7 @@
 
 # Generate passport RF dataset
 
-This project is generate dataset from https://sites.google.com/a/chromium.org/chromedriver/home 
+This project is generate dataset from https://www.random1.ru/generator-pasportnyh-dannyh .
 
 ## Installation
 
