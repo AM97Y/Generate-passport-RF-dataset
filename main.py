@@ -6,8 +6,16 @@ from datetime import datetime
 from selenium import webdriver
 
 URL: str = 'https://www.random1.ru/generator-pasportnyh-dannyh'
-NAMES: tuple = ('LastName', 'FirstName', 'FatherName', 'DateOfBirth', 'PasportNum', 'PasportCode', 'PasportOtd',
-                'PasportDate', 'Address')
+NAMES: tuple = (
+    'LastName',
+    'FirstName',
+    'FatherName',
+    'DateOfBirth',
+    'PasportNum',
+    'PasportCode',
+    'PasportOtd',
+    'PasportDate',
+    'Address')
 
 
 def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
@@ -32,7 +40,8 @@ def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
         driver.find_element_by_xpath(
             "//div[@class='people_buttons']/button").click()
         for key in NAMES:
-            data[key].add(driver.find_element_by_xpath(f'//input[@id="{key}"]').get_attribute('value'))
+            data[key].add(driver.find_element_by_xpath(
+                f'//input[@id="{key}"]').get_attribute('value'))
 
     return data
 
@@ -53,7 +62,8 @@ def init_argparse():
     Initializes argparse
     Returns parser.
     """
-    parser = ArgumentParser(description='Load passport data generated on Load passport data generated on: https://www.random1.ru/generator-pasportnyh-dannyh')
+    parser = ArgumentParser(
+        description='Load passport data generated on Load passport data generated on: https://www.random1.ru/generator-pasportnyh-dannyh')
     parser.add_argument(
         '--browser',
         nargs='?',
@@ -91,4 +101,6 @@ if __name__ == '__main__':
     today = datetime.today()
 
     for name in NAMES:
-        save_data(data[name], f'{args.output_path}/{name}_{today.strftime("%Y-%m-%d-%H.%M.%S")}.txt')
+        save_data(
+            data[name],
+            f'{args.output_path}/{name}_{today.strftime("%Y-%m-%d-%H.%M.%S")}.txt')
