@@ -27,6 +27,7 @@ def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
     data = {name: set() for name in NAMES}
 
     driver.get(URL)
+    # Extract passport data generated on the web page.
     for _ in range(number_requests):
         driver.find_element_by_xpath(
             "//div[@class='people_buttons']/button").click()
@@ -36,7 +37,7 @@ def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
     return data
 
 
-def save_data(data: dict, filename: str):
+def save_data(data: dict, filename: str) -> None:
     """
     data: dict with dataset,
     filename: file name with path.
@@ -52,46 +53,42 @@ def init_argparse():
     Initializes argparse
     Returns parser.
     """
-    parser = ArgumentParser(description='Load data from site https://www.random1.ru/generator-pasportnyh-dannyh')
+    parser = ArgumentParser(description='Load passport data generated on Load passport data generated on: https://www.random1.ru/generator-pasportnyh-dannyh')
     parser.add_argument(
         '--browser',
         nargs='?',
-        help='type browser Chrome or Firefox',
+        help='Web browser: Chrome or Firefox',
         default='Firefox',
         type=str)
-
     parser.add_argument(
-        '--path_driver',
+        '--webdriver_path',
         nargs='?',
-        help='path web driver, download https://sites.google.com/a/chromium.org/chromedriver/home or https://github.com/mozilla/geckodriver/releases',
+        help='Path to Web driver',
         default='./geckodriver',
         type=str)
     parser.add_argument(
         '--number_requests',
         nargs='?',
-        help='number requests from website',
+        help='Number of requests to Web site',
         default=20,
         type=int)
     parser.add_argument(
-        '--output',
+        '--output_path',
         nargs='?',
-        help='path to save files',
+        help='Path to save files',
         default='output/',
         type=str)
 
     return parser
 
 
-def makedirs(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
-
-
 if __name__ == '__main__':
     args = init_argparse().parse_args()
-    data = get_data(args.browser, args.path_driver, args.number_requests)
+    data = get_data(args.browser, args.webdriver_path, args.number_requests)
 
-    makedirs(args.output)
+    if not os.path.exists(args.output_path):
+        os.makedirs(args.output_path)
     today = datetime.today()
+
     for name in NAMES:
-        save_data(data[name], f'{args.output}/{name}_{today.strftime("%Y-%m-%d-%H.%M.%S")}.txt')
+        save_data(data[name], f'{args.output_path}/{name}_{today.strftime("%Y-%m-%d-%H.%M.%S")}.txt')
