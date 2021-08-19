@@ -5,12 +5,12 @@ from datetime import datetime
 
 from selenium import webdriver
 
-URL = 'https://www.random1.ru/generator-pasportnyh-dannyh'
-NAMES = ('LastName', 'FirstName', 'FatherName', 'DateOfBirth', 'PasportNum', 'PasportCode', 'PasportOtd',
-         'PasportDate', 'Address')
+URL: str = 'https://www.random1.ru/generator-pasportnyh-dannyh'
+NAMES: tuple = ('LastName', 'FirstName', 'FatherName', 'DateOfBirth', 'PasportNum', 'PasportCode', 'PasportOtd',
+                'PasportDate', 'Address')
 
 
-def get_data(browser, path_driver, number_requests):
+def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
     """
     browser: type browser - Chrome or Firefox
     path_driver: driver location
@@ -36,7 +36,7 @@ def get_data(browser, path_driver, number_requests):
     return data
 
 
-def save_data(data, filename):
+def save_data(data: dict, filename: str):
     """
     data: dict with dataset,
     filename: file name with path.
@@ -52,7 +52,7 @@ def init_argparse():
 
     Returns parser
     """
-    parser = ArgumentParser(description='Load data from site {}')
+    parser = ArgumentParser(description='Load data from site https://www.random1.ru/generator-pasportnyh-dannyh')
     parser.add_argument(
         '--browser',
         nargs='?',
@@ -78,6 +78,7 @@ def init_argparse():
         help='path to save files',
         default='output/',
         type=str)
+
     return parser
 
 
