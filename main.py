@@ -15,7 +15,7 @@ def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
     browser: type browser - Chrome or Firefox
     path_driver: driver location
     number_requests: number requests from https://www.random1.ru/generator-pasportnyh-dannyh.
-    Return dict of load data.
+    This function returns a dict with unique downloaded data from requests.
     """
     if browser == 'Firefox':
         driver = webdriver.Firefox(executable_path=path_driver)
@@ -40,6 +40,7 @@ def save_data(data: dict, filename: str):
     """
     data: dict with dataset,
     filename: file name with path.
+    This function saves the dictionary by key into a separate file.
     """
     with open(filename, 'w', newline='') as file:
         for line in data:
@@ -49,8 +50,7 @@ def save_data(data: dict, filename: str):
 def init_argparse():
     """
     Initializes argparse
-
-    Returns parser
+    Returns parser.
     """
     parser = ArgumentParser(description='Load data from site https://www.random1.ru/generator-pasportnyh-dannyh')
     parser.add_argument(
