@@ -14,9 +14,9 @@ This project allows to generate data for RF passports which are received from [R
 
  ## Prerequisites
 
- * Web Browser: [Google Chrome](https://www.google.com/chrome) or [Mozilla Firefox](https://www.mozilla.org/en/firefox/new/)
- * Installed web driver (see [ChromeDriver](https://chromedriver.chromium.org/downloads) or [mozilla/geckodriver](https://github.com/mozilla/geckodriver/releases) for more information)
- * Installed [Python](https://www.python.org/downloads/) >= 3.6 or [Anaconda](https://www.anaconda.com/products/individual)  >= 4.10.1
+* Web Browser: [Google Chrome](https://www.google.com/chrome) or [Mozilla Firefox](https://www.mozilla.org/en/firefox/new/)
+* Installed web driver (see [ChromeDriver](https://chromedriver.chromium.org/downloads) or [mozilla/geckodriver](https://github.com/mozilla/geckodriver/releases) for more information)
+* Installed [Python](https://www.python.org/downloads/) >= 3.6 or [Anaconda](https://www.anaconda.com/products/individual)  >= 4.10.1
 
 
 ## Launch
@@ -33,5 +33,16 @@ This project allows to generate data for RF passports which are received from [R
         python main.py --output_path ./output
 
  For more information launch `python main.py -h`  
+
+```
+
+## Autopep8
+[Autopep8](https://pypi.org/project/autopep8/) automatically formats Python code to conform to the PEP 8 style guide. It uses the pycodestyle utility to determine what parts of the code needs to be formatted. autopep8 is capable of fixing most of the formatting issues that can be reported by pycodestyle.
+
+```
+1) pip install --upgrade autopep8
+
+    
+2) autopep8 --global-config <config_pep> <file>. In project <config_pep> is file 'pep8'.
 
 ```
