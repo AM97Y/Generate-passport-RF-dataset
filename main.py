@@ -15,15 +15,16 @@ NAMES: tuple = (
     'PasportCode',
     'PasportOtd',
     'PasportDate',
-    'Address')
+    'Address',)
 
 
 def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
     """
-    browser: type browser - Chrome or Firefox
-    path_driver: driver location
-    number_requests: number requests from https://www.random1.ru/generator-pasportnyh-dannyh.
     This function returns a dict with unique downloaded data from requests.
+    browser: type browser - Chrome or Firefox.
+    path_driver: driver location.
+    number_requests: number requests from https://www.random1.ru/generator-pasportnyh-dannyh.
+    return: Dict with unique downloaded data from requests.
     """
     if browser == 'Firefox':
         driver = webdriver.Firefox(executable_path=path_driver)
@@ -37,20 +38,19 @@ def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
     driver.get(URL)
     # Extract passport data generated on the web page.
     for _ in range(number_requests):
-        driver.find_element_by_xpath(
-            "//div[@class='people_buttons']/button").click()
+        driver.find_element_by_xpath("//div[@class='people_buttons']/button").click()
         for key in NAMES:
-            data[key].add(driver.find_element_by_xpath(
-                f'//input[@id="{key}"]').get_attribute('value'))
+            data[key].add(driver.find_element_by_xpath(f'//input[@id="{key}"]').get_attribute('value'))
 
     return data
 
 
 def save_data(data: dict, filename: str) -> None:
     """
-    data: dict with dataset,
-    filename: file name with path.
     This function saves the dictionary by key into a separate file.
+    data: dict with dataset.
+    filename: file name with path.
+    return: None.
     """
     with open(filename, 'w', newline='') as file:
         for line in data:
@@ -63,7 +63,7 @@ def init_argparse():
     Returns parser.
     """
     parser = ArgumentParser(
-        description='Load passport data generated on Load passport data generated on: https://www.random1.ru/generator-pasportnyh-dannyh')
+        description='Load passport data generated on: https://www.random1.ru/generator-pasportnyh-dannyh')
     parser.add_argument(
         '--browser',
         nargs='?',
@@ -101,6 +101,4 @@ if __name__ == '__main__':
     today = datetime.today()
 
     for name in NAMES:
-        save_data(
-            data[name],
-            f'{args.output_path}/{name}_{today.strftime("%Y-%m-%d-%H.%M.%S")}.txt')
+        save_data(data[name], f'{args.output_path}/{name}_{today.strftime("%Y-%m-%d-%H.%M.%S")}.txt')
