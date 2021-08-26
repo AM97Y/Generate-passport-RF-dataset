@@ -15,7 +15,8 @@ NAMES: tuple = (
     'PasportCode',
     'PasportOtd',
     'PasportDate',
-    'Address',)
+    'Address',
+    'City',)
 
 
 def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
@@ -39,10 +40,24 @@ def get_data(browser: str, path_driver: str, number_requests: int) -> dict:
     # Extract passport data generated on the web page.
     for _ in range(number_requests):
         driver.find_element_by_xpath("//div[@class='people_buttons']/button").click()
-        for key in NAMES:
-            data[key].add(driver.find_element_by_xpath(f'//input[@id="{key}"]').get_attribute('value'))
+        for name in NAMES:
+            if name != 'City':
+                # Information about accommodation is divided into the city and the address itself
+                if name == 'Address':
+                    address = driver.find_element_by_xpath(f'//input[@id="{name}"]').get_attribute('value')
+                    new_address = ",".join(address.split(",")[2:])
+                    city = address.split(",")[1]
+
+                    data['Address'].add(new_address)
+                    data['City'].add(city)
+                else:
+                    data[name].add(driver.find_element_by_xpath(f'//input[@id="{name}"]').get_attribute('value'))
 
     return data
+
+def _split_address(self, addres:str):
+    new_address = addres.split(",")[2][1:]
+    city = addres.split(",")[1]
 
 
 def save_data(data: dict, filename: str) -> None:
@@ -100,5 +115,5 @@ if __name__ == '__main__':
         os.makedirs(args.output_path)
     today = datetime.today()
 
-    for name in NAMES:
+    for name in data.keys():
         save_data(data[name], f'{args.output_path}/{name}_{today.strftime("%Y-%m-%d-%H.%M.%S")}.txt')
